@@ -80,15 +80,18 @@ public class Hangman {
             System.out.println("\tHANGMAN!\n\n");
             
             //Word
-            String hiddenWord = "eagle"; //getHiddenWord(words);
+            String hiddenWord = getHiddenWord(words);
             char[] hiddenWordArray = createCharArray(hiddenWord);
             char[] placeholderArray = createPlaceholderArray(hiddenWordArray);
-            
+            char[] missesArray = new char[6];
+            int correctGuesses = 0;
+            int misses = 0;
+
             //Game starts
             //Turns = 6 guesses + hiddenword length
             for (int i = 0; i < placeholderArray.length+6; i++) {
                 //Picture
-                System.out.println(gallows[0]);
+                System.out.println(gallows[misses]);
 
                 //print missing word UI
                 System.out.print("Word: ");
@@ -98,57 +101,64 @@ public class Hangman {
                 System.out.print("\n\n");
                 
                 //Misses
-                String missesString = "";
-                System.out.print("Misses:\t "+ missesString +"\n\n");
+                System.out.print("Misses:\t ");
+                for (char c : missesArray) {
+                    System.out.print(c + "");
+                }
+                System.out.print("\n\n");
                 
-                //Guess
-                System.out.print("Guess: \t- ");
-                char guess = scan.next().charAt(0);
-
-                boolean checkIfMatch = checkIfDuplicateLetters(guess, hiddenWordArray, placeholderArray);
+                if(misses == 6) {
+                    System.out.println("YOU LOOSE!!!");
+                    System.exit(0);
+                }
                 
-                // if placeholder string equals hiddenword player wins
-                if(hiddenWordArray.equals(placeholderArray)){
+                if(correctGuesses == hiddenWordArray.length){
                     System.out.println("You WIN !");
                     System.exit(0);
+                } 
+                
+                //Guess
+                System.out.print("Guess: \t ");
+                char guess = scan.next().charAt(0);
+
+                boolean checkIfMatch = checkIfMatch(guess, hiddenWordArray);
+                boolean checkIfCharRepeat = checkIfCharRepeat(hiddenWordArray, guess);
+
+                // if placeholder string equals hiddenword player wins
+                if(checkIfCharRepeat && checkIfMatch) {
+                    correctGuesses++;
+                    
+                    //getting repeat indexes
+                    int[] repeatIndexes = repeatIndexes(hiddenWordArray, guess);
+                    
+                    //replace the correct value in placeholder array
+                    updatePlaceholderArray(repeatIndexes, placeholderArray, guess);
+                    
                 } else if (checkIfMatch){
-                    // if guess is in the hiddenway array, update placeholderstring and continue
-                    System.out.println("UPDATE STRING");
+                    correctGuesses++;
+                    
                     // find guess chars index in hiddenwordstring
                     int index = hiddenWord.indexOf(guess);
                     // replace char in placeholder array
                     placeholderArray[index] = guess;
                     
                 } else {
-                    // else update missesString and update gallows and continue
-                    System.out.println("UPDATE MISSSESTRING AND GALLOWS");
+                    misses++;
+                    
+                    // missesArray update
+                    missesArray[misses - 1] = guess;
                 }
-
-                
-                // TEMP Code:
-                System.out.println("input: " + guess);
-                //System.out.println("HIDDEN WORD: " + hiddenWord);
             }
             System.out.println("YOU LOOSE!!!");
             System.exit(0);
-        
-
-        //1. user input
-        //2. check input
-        //3. show correct guess
-        //3. show miss
-        //4. update hangman
     }
 
     public static String getHiddenWord(String[] words) {
         int randomNumber = getRandomNumberFromArrayLength(words);
-        //return random word
-        System.out.println("Random Word: " + words[randomNumber]);
         return words[randomNumber];
     }
 
     public static int getRandomNumberFromArrayLength(String[] array) {
-        // random number between 0 and words.length - 1
         return (int)((Math.random()*words.length)-1);
     }
 
@@ -157,7 +167,6 @@ public class Hangman {
         for (int i = 0; i < result.length; i++) {
             result[i] = word.charAt(i);
         }
-        System.out.println(Arrays.toString(result));
         return result;
     }
 
@@ -180,21 +189,61 @@ public class Hangman {
         return false;
     }
     
-    public static boolean checkIfDuplicateLetters(char ch, char[] hiddenWordArray, char[] placeholderArray) {
-        for (int i = 0; i < placeholderArray.length; i++) {
-            Character placeHolderChar = Character.valueOf(placeholderArray[i]);
-            Character hiddenChar = Character.valueOf(hiddenWordArray[i]);
-            Character chareCharacter = Character.valueOf(ch);
-            if(placeHolderChar.equals('_')){
-                if(chareCharacter.equals(hiddenChar))
+    public static boolean checkIfCharRepeat(char[] array, char guess) {
+        int counter = 0;
+        int[] repeats = new int[array.length];
+        
+            char ch = guess;
+            Character charFromCh = Character.valueOf(ch) ;
+            for (int j = 0; j < array.length; j++) {
+                Character charFromArray = Character.valueOf(array[j]); 
+                if (charFromCh.equals(charFromArray)) {
+                    counter++;
+                }
+                repeats[j] = counter;
+            }
+            counter = 0;
+        
+        for (int i : repeats) {
+            if(i >= 2){
                 return true;
             }
         }
         return false;
     }
 
+    public static int[] repeatIndexes(char[] array, char guess) {
+        int counter = 0;
+        int[] repeats = new int[array.length];
+            char ch = guess;
+            Character charFromCh = Character.valueOf(ch) ;
+            for (int j = 0; j < array.length; j++) {
+                Character charFromArray = Character.valueOf(array[j]); 
+                if (charFromCh.equals(charFromArray)) {
+                    counter++;
+                    System.out.println("counter: " + counter);
+                }
+                repeats[j] = counter;
+                counter = 0;
+            }
+        return repeats;
+    }
+
     public static String updateString(char[] array) {
         return String.valueOf(array);
+    }
+
+    public static void updatePlaceholderArray(int []repeatIndexes, char[] placeholderArray, char guess) {
+        for (int j = 0; j < repeatIndexes.length; j++) {
+            if(repeatIndexes[j] == 1) {
+                Character placeHolderChar = Character.valueOf(placeholderArray[j]);
+                //update
+                if (placeHolderChar.equals('_')) {
+                    placeholderArray[j] = guess;
+                    break;
+                }
+            }
+        }
     }
 }
 
