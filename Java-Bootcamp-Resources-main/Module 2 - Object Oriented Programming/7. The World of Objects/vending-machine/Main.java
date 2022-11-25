@@ -11,5 +11,9 @@ public class Main {
         /     { new Item("Crush", 1.99, 2) , new Item("C-Cola", 1.49, 2), new Item("Berry", 2.49, 1) }
         / };
         */
+
+        Item newItem = new Item("Pepsi", 1.99, 3);
+
+        System.out.println(newItem.toString());
     }
 }

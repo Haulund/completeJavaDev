@@ -1,5 +1,26 @@
 public class Machine {
     
+    private Item[][] items;
+    
+    public Machine(Item[][] items) {
+        for (int i = 0; i < items.length; i++) {
+            for (int j = 0; j < items.length; j++) {
+                this.items[i][j] = items[i][j];
+            }  
+        }
+    }
+
+    public Item getItem(int row, int spot) {
+        return this.items[row][spot];
+    }
+
+    public void setItem(Item item, int row, int spot) {
+        this.items[row][spot] = new Item(item);
+    }
+
+    // DU ER NÅET TIL -------------> PART 2 TASK 3
+
+    
     
     
     /**

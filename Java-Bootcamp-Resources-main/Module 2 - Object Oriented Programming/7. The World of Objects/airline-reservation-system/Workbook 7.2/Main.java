@@ -3,19 +3,12 @@ import java.util.Arrays;
 public class Main {
   
     public static void main(String[] args) {
-        Person person = new Person();
+        Person person = new Person("Mura", "Azeroth", "02029384", 5);
  
-        person.name = "Rayan Slim";
-        person.nationality = "Canadian";
-        person.dateOfBirth = "01/01/1111";
-        person.passport = new String[]{person.name, person.nationality, person.dateOfBirth};
-        person.seatNumber = 5;
         
-        System.out.println(person.name);
-        System.out.println(person.nationality);
-        System.out.println(person.dateOfBirth);
-        System.out.println(Arrays.toString(person.passport));
-        System.out.println(person.seatNumber);
+        person.passport = new String[]{person.name, person.nationality, person.dateOfBirth};
+        
+       System.out.println("Name: " + person.name + "\n" + "Nationality: " + person.nationality + "\n" + "Date of Birth: " + person.dateOfBirth + "\n" + "Seat Number: " + person.seatNumber + "\n");
 
     }
   
