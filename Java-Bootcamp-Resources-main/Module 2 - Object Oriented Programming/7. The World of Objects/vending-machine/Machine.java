@@ -3,26 +3,38 @@ public class Machine {
     private Item[][] items;
     
     public Machine(Item[][] items) {
+        //make the Items 2D array
+        this.items = new Item[items.length][items[0].length];
+
+        // populate 2D array
         for (int i = 0; i < items.length; i++) {
-            for (int j = 0; j < items.length; j++) {
-                this.items[i][j] = items[i][j];
-            }  
+            for (int j = 0; j < items[i].length; j++) {
+                this.items[i][j] = new Item(items[i][j]);
+            }
         }
     }
 
     public Item getItem(int row, int spot) {
-        return this.items[row][spot];
+        return new Item(this.items[row][spot]);
     }
 
     public void setItem(Item item, int row, int spot) {
         this.items[row][spot] = new Item(item);
     }
 
-    // DU ER NÅET TIL -------------> PART 2 TASK 3
+    public String toString() {
+        String temp = "";
+        for (int i = 0; i < items.length; i++) {
+            temp += "\t";
+            for (int j = 0; j < items[i].length; j++) {
+                temp += this.items[i][j].toString() + " ";
+            }
+            temp += "\n\n";
+        }
+        temp += "\t************************************************";
+        return temp;
+    }
 
-    
-    
-    
     /**
      * Function name – dispense
      * @param row (int)
@@ -34,4 +46,12 @@ public class Machine {
      *      • if so: decreases its quantity by one and returns true.
      *      • otherwise: returns false.
      */
+    public boolean dispense(int row, int spot) {
+        Item item = this.items[row][spot];
+        if(item.getQuantity() > 0){
+            item.setQuantity(item.getQuantity()-1);
+            return true;
+        }
+        return false;
+    }    
 }
