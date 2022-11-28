@@ -1,3 +1,5 @@
+package models;
+
 public class Store {
     Employee[] employees;
 
@@ -10,6 +12,11 @@ public class Store {
     }
 
     public void open() {
+        for (Employee employee : employees) {
+            if(employee == null) {
+                throw new IllegalStateException("You must be fully-staffed before opening the store!");
+            }
+        }
         System.out.println("We're open for business!");
     }
 

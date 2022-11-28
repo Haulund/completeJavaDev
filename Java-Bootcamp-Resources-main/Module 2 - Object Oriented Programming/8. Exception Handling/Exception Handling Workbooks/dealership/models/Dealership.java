@@ -15,11 +15,18 @@ public class Dealership {
     }
 
     public Car getCar(int index) {
-        return new Car(this.cars[index]);
+        return this.cars[index] == null ? null : new Car(this.cars[index]);
+    }
+
+    public int getLength() {
+        return this.cars.length;
     }
 
     
     public void sell(int index) {  
+        if (this.isEmpty()) {
+            throw new IllegalStateException("No more cars");
+        }
         this.cars[index].drive();
         this.cars[index] = null;
     }
@@ -32,6 +39,14 @@ public class Dealership {
      *   • returns true if there are no more cars.
      * 
      */
+    public Boolean isEmpty() {
+        for (Car car : cars) {
+            if(car != null){
+                return false;
+            }
+        }
+        return true;
+    }
 
      
     public String toString() {

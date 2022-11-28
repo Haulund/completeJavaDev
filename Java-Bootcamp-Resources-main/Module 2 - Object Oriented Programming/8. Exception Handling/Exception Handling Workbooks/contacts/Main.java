@@ -1,7 +1,22 @@
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import models.Contact;
+
 public class Main {
     public static void main(String[] args) {
-        
-      
+        try {
+
+            Contact contact = new Contact("allan T", "07/23/1912", 9874350);
+            System.out.println(contact);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            System.out.println("Process complete");
+        }
+       
         
     }
 
