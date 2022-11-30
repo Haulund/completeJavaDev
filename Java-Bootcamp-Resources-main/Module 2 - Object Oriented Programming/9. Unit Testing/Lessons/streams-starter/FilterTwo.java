@@ -1,10 +1,14 @@
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class FilterTwo {
 
     static ArrayList<Double> prices = new ArrayList<Double>();
 
 
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
         prices.add(1.99);
         prices.add(4.99);
@@ -12,8 +16,12 @@ public class FilterTwo {
         prices.add(15.99);
 
         ArrayList<Double> lowPrices = new ArrayList<Double>();
+
+        lowPrices.addAll(prices.stream()
+        .filter(price -> price < 5)
+        .collect(Collectors.toList()));
     
-        filterLowPrices(lowPrices);
+        //filterLowPrices(lowPrices);
     }
 
     public static void filterLowPrices(ArrayList<Double> lowPrices) {

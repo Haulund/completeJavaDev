@@ -46,7 +46,7 @@ public class Cart {
     *   1. Removes the item that matches the name passed in.
     */
     public void remove(String name) {
-        if(this.items.isEmpty()) {
+        if(items.isEmpty()) {
             throw new IllegalStateException("Cannot remove item - no items available");
         }
         for (Item item : items) {
@@ -71,8 +71,8 @@ public class Cart {
     */
 
     public String checkout() {
-        if(this.items.isEmpty()) {
-            throw new IllegalStateException("Cannot checkout - no items available");
+        if(items.isEmpty()) {
+            throw new IllegalStateException("Cannot checkout - empty Cart");
         }
         double subtotal = 0;
         for (Item item : items) {
@@ -93,6 +93,10 @@ public class Cart {
             temp += item.toString() + "\n";
         }
         return temp;
+    }
+
+    public boolean isEmpty() {
+        return this.items.isEmpty();
     }
     
 }
