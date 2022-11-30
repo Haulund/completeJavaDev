@@ -103,7 +103,7 @@ public class Hangman {
                 //Misses
                 System.out.print("Misses:\t ");
                 for (char c : missesArray) {
-                    System.out.print(c + "");
+                    System.out.print(c + " ");
                 }
                 System.out.print("\n\n");
                 

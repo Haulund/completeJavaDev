@@ -1,22 +1,27 @@
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Scanner;
 
 import models.Contact;
+import models.ContactManager;
 
 public class Main {
-    public static void main(String[] args) {
-        try {
+    static ContactManager manager = new ContactManager();
+     
 
-            Contact contact = new Contact("allan T", "07/23/1912", 9874350);
-            System.out.println(contact);
-        } catch (ParseException e) {
+    public static void main(String[] args) {
+        try{
+
+            loadContacts("contacts.txt");
+            System.out.println("CONTACS LOADED \n\n");
+            System.out.println(manager);
+            manageContacts();
+        } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
-        } finally {
-            System.out.println("Process complete");
-        }
-       
+        } 
+        
         
     }
 
@@ -31,6 +36,53 @@ public class Main {
      *   •        case c: break the loop.
      *   • 3. close Scanner.
      */
+    public static void manageContacts() {
+        Scanner scan = new Scanner(System.in);
+        while (true) {
+            System.out.println("Do you wanna 'a' add, 'b' remove a contact or 'c' exit");
+            System.out.print("Enter choice: ");
+            String input = scan.nextLine();
+            if (input.equalsIgnoreCase("a")){
+                System.out.println("creating contact: ");
+                System.out.print("\tname: ");
+                String nameAdd = scan.nextLine();
+                System.out.print("\tphone number: ");
+                String phoneNumber = scan.nextLine();
+                System.out.print("\tdate of birth: ");
+                String dateOfbirth = scan.nextLine();
+
+                if (nameAdd.isBlank() || phoneNumber.isBlank() || phoneNumber.length() < 5){
+                    System.out.println("the input you provided is cannot be blank");
+                    continue;
+                }
+
+                
+                try {
+                    manager.addContact(new Contact(nameAdd, dateOfbirth, phoneNumber));
+                } catch (ParseException e) {
+                    System.out.println(e.getMessage());
+                
+                } finally {
+                    System.out.println("\n\nUPDATED CONTACTS\n\n");
+                    System.out.println(manager);
+                }
+
+            } else if (input.equalsIgnoreCase("b")) {
+                System.out.println("Removing contact: ");
+                System.out.print("Please enter contact name: ");
+                String nameRemove = scan.nextLine();
+                manager.removeContact(nameRemove);
+                System.out.println("\n\nUPDATED CONTACTS\n\n");
+                System.out.println(manager);
+                
+
+            } else if (input.equalsIgnoreCase("c")){
+                System.out.println("exit!");
+                break;
+            }
+        } 
+        scan.close();
+    }
 
 
 
@@ -44,5 +96,20 @@ public class Main {
      *   • 2. From the manager object, it adds all contacts to the contacts list.
      *        Hint: use scan.next to grab the next String separated by white space.
      */
+
+     public static void loadContacts(String filename) throws FileNotFoundException {
+           FileInputStream fis = new FileInputStream(filename);
+           Scanner scanFile = new Scanner(fis);
+           while (scanFile.hasNextLine()) {
+            try {
+                Contact contact = new Contact(scanFile.next(), scanFile.next(), scanFile.next());
+                manager.addContact(contact);
+            } catch (ParseException e) {
+                System.out.println(e.getMessage());
+            }
+           }
+           scanFile.close();
+        
+     }
 
 }
