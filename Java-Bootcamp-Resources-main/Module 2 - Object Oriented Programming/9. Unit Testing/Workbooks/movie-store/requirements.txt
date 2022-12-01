@@ -6,10 +6,18 @@ A movie is described by its name, format, and rating.
 ----------------------------------------
 - adding a movie
     - `[identify test case 1]`
+    - check if the ArrayList size grew?
+    - make sure the store contains the moive that was just added!
 - selling a movie
     - `[identify test case 2]`
+    Test if the movie gets reomed from the store after being sold
+    - make sure the sell method was called;
     - `[identify state exception test case]`
+    Test for an IllegalSTateException for selling a rented movie
 - renting a movie
     - `[identify test case 4]`
+    - Make that the rent method changes isAvailable field
 - returning a movie
     - `[identify test case 5]`
+    - Make sure that the return method changes isAvailable field
+

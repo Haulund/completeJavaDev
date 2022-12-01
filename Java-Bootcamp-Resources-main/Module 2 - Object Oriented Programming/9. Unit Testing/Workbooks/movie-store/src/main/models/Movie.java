@@ -1,5 +1,7 @@
 package src.main.models;
 
+import static org.junit.jupiter.api.DynamicTest.stream;
+
 public class Movie {
     private String name;
     private String format;
@@ -92,6 +94,25 @@ public class Movie {
 
     public void setAvailable(boolean isAvailable) {
         this.isAvailable = isAvailable;
+    }
+
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        if(!(obj instanceof Movie)){
+            return false;
+        }
+
+        Movie movie = (Movie)obj;
+
+        return 
+            this.name.equals(movie.getName()) &&
+            this.format.equals(movie.getFormat()) &&
+            this.rating == movie.getRating() &&
+            this.rentalPrice == movie.getRentalPrice() &&
+            this.sellingPrice == movie.getSellingPrice() &&
+            this.isAvailable == movie.isAvailable();
     }
 
     public String toString() {
