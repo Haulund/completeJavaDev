@@ -7,12 +7,15 @@ public class Movie {
     private double sellingPrice;
     private double rentalPrice;
     private boolean isAvailable;
+    private static final String FORMAT_DVD = FORMAT_DVD;
+    private static final String FORMAT_BLEURAY = FORMAT_BLEURAY;
+
 
     public Movie(String name, String format, double rating) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("name must contain a value");
         }
-        if (!(format.equals("DVD") || format.equals("Blue-Ray"))) {
+        if (!(format.equals(FORMAT_DVD) || format.equals(FORMAT_BLEURAY))) {
             throw new IllegalArgumentException("format must be DVD or Blue-Ray");
         }
         if (rating < 0 || rating > 10) {
@@ -21,8 +24,8 @@ public class Movie {
         this.name = name;
         this.format = format;
         this.rating = rating;
-        this.sellingPrice = format.equals("Blue-Ray") ? 4.25 : 2.25;
-        this.rentalPrice = format.equals("Blue-Ray") ? 1.99 : 0.99;
+        this.sellingPrice = format.equals(FORMAT_BLEURAY) ? 4.25 : 2.25;
+        this.rentalPrice = format.equals(FORMAT_BLEURAY) ? 1.99 : 0.99;
         this.isAvailable = true;
     }
 
@@ -67,12 +70,12 @@ public class Movie {
     }
 
     public void setFormat(String format) {
-        if (!(format.equals("DVD") || format.equals("Blue-Ray"))) {
+        if (!(format.equals(FORMAT_DVD) || format.equals(FORMAT_BLEURAY))) {
             throw new IllegalArgumentException("format must be DVD or Blue-Ray");
         }
         this.format = format;
-        setSellingPrice(format.equals("Blue-Ray") ? 4.25 : 2.25);
-        setRentalPrice(format.equals("Blue-Ray") ? 1.99 : 0.99);
+        setSellingPrice(format.equals(FORMAT_BLEURAY) ? 4.25 : 2.25);
+        setRentalPrice(format.equals(FORMAT_BLEURAY) ? 1.99 : 0.99);
     }
 
     public void setRating(double rating) {
