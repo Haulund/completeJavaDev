@@ -29,6 +29,9 @@ public class Game {
     }
 
     public void setScore(Team team, Integer score) {
+        if(team == null) {
+            throw new IllegalArgumentException("Cannot add null to the scoreboard");
+        }
         scoreboard.put(team, score);
     }
 
@@ -63,17 +66,32 @@ public class Game {
 
     ///// ************** DU ER IGANG MED TASK 7 + 8
 
-    public Team getRandoTeam() {
+    public Team getRandomTeam() {
         Object[] array = scoreboard.keySet().toArray();
-        return game.getTeam()
+        return (Team)array[random(array.length)];
     }
 
     public int random(int range) {
-        int number = (int)Math.random()*range;
-        return number;
+        return (int)(Math.random()*range);
     }
 
-    public void simulate(String play) {
-        getPlaceholder(play);
+    public String simulate(String play) {
+        String placeholder = getPlaceholder(play);
+        Team team = getRandomTeam();
+        String value = "";
+
+        if (placeholder.equals(Team.getPositionChaser())) {
+            quaffleScore(team);
+            value = replacePlaceholder(play, placeholder, team.getChasers()[random(team.getChasers().length)]);
+        } else if (placeholder.equals(Team.getPositionSeeker())) {
+            catchSnitch(team);
+            value = replacePlaceholder(play, placeholder, team.getSeeker());
+        } else if(placeholder.equals(Team.getPositionKeeper())){
+            value = replacePlaceholder(play, placeholder, team.getKeeper());
+        } else {
+            value = "";
+        }
+
+        return value;
     }
 }
